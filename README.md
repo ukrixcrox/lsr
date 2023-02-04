@@ -1,0 +1,2 @@
+# lsr
+ls but rust
