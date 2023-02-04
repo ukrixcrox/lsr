@@ -1,5 +1,5 @@
 # rustlist
-rl is the ls but written in rust
+lsr is the ls but written in rust
 
 
 # TODO

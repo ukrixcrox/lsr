@@ -25,10 +25,10 @@ fn main() {
     let user_path = Path::new(&args.dir);
 
 
-    run_rl(&user_path, args.show_all, args.dir_only);
+    run_lsr(&user_path, args.show_all, args.dir_only);
 }
-
-fn run_rl(dir:&Path, show_all:bool, dir_only:bool){
+//TODO: put this in the main function
+fn run_lsr(dir:&Path, show_all:bool, dir_only:bool){
     if let Ok(entries) = fs::read_dir(dir){
         for entry in entries{
             if let Ok(entry) = entry{
