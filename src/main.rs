@@ -24,12 +24,7 @@ fn main() {
     let args = Opts::parse();
     let user_path = Path::new(&args.dir);
 
-
-    run_lsr(&user_path, args.show_all, args.dir_only);
-}
-//TODO: put this in the main function
-fn run_lsr(dir:&Path, show_all:bool, dir_only:bool){
-    if let Ok(entries) = fs::read_dir(dir){
+    if let Ok(entries) = fs::read_dir(&user_path){
         for entry in entries{
             if let Ok(entry) = entry{
 
@@ -41,20 +36,20 @@ fn run_lsr(dir:&Path, show_all:bool, dir_only:bool){
                                         .unwrap();
 
                 // works for now
-                if !show_all && !dir_only{
+                if !args.show_all && !args.dir_only{
                     if !entry_string.starts_with("."){
                         format_output(&entry);
                     }
 
-                }else if show_all && !dir_only{
+                }else if args.show_all && !args.dir_only{
                     format_output(&entry);
 
-                }else if show_all && dir_only{
+                }else if args.show_all && args.dir_only{
                     if entry.is_dir(){
                         format_output(&entry);
                     }
 
-                }else if !show_all && dir_only{
+                }else if !args.show_all && args.dir_only{
                     if entry.is_dir() && !entry_string.starts_with("."){
                         format_output(&entry);
                     }
