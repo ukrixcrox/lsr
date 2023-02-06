@@ -7,7 +7,7 @@ use colored::Colorize;
 #[derive(Parser)]
 #[command(author, version)]
 struct Opts{
-    /// custom dir, default_value="."
+    /// custom dir
     #[arg(default_value=".")]
     dir:String,
 
