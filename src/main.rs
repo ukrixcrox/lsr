@@ -18,6 +18,9 @@ struct Opts{
     /// shows only dirs
     #[arg(short='d', long)]
     dir_only:bool,
+
+    //TODO: need to add the long format before adding color for executable files
+    //because what is executable is user specific and you can see that on linux in the permissions
 }
 
 fn main() {
