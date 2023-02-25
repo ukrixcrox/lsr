@@ -24,9 +24,8 @@ fn main() {
     let args = Opts::parse();
     let user_path = Path::new(&args.dir);
 
-    if let Ok(entries) = fs::read_dir(&user_path){
-        for entry in entries{
-            if let Ok(entry) = entry{
+    if let Ok(entries) = fs::read_dir(user_path){
+        for entry in entries.flatten(){
 
                 let entry = entry.path();
                 let entry_string = entry.file_name()
@@ -37,7 +36,7 @@ fn main() {
 
                 // works for now
                 if !args.show_all && !args.dir_only{
-                    if !entry_string.starts_with("."){
+                    if !entry_string.starts_with('.'){
                         format_output(&entry);
                     }
 
@@ -49,14 +48,11 @@ fn main() {
                         format_output(&entry);
                     }
 
-                }else if !args.show_all && args.dir_only{
-                    if entry.is_dir() && !entry_string.starts_with("."){
+                }else if !args.show_all && args.dir_only && entry.is_dir() && !entry_string.starts_with('.'){
                         format_output(&entry);
                     }
                 }
-            }
         }
-    }
 }
 
 fn format_output(entry: &Path){
@@ -66,7 +62,7 @@ fn format_output(entry: &Path){
                             .into_string()
                             .unwrap();
 
-    if entry_string.starts_with(".") && !entry.is_dir(){
+    if entry_string.starts_with('.') && !entry.is_dir(){
         println!("{}", entry_string.red());
 
     }else if entry.is_dir(){
