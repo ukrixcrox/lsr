@@ -1,7 +1,8 @@
 use std::fs;
 use std::path::Path;
 use clap::Parser;
-use colored::Colorize;
+
+mod format;
 
 /// simple ls implementation in rust for the crust shell
 #[derive(Parser)]
@@ -40,41 +41,20 @@ fn main() {
                 // works for now
                 if !args.show_all && !args.dir_only{
                     if !entry_string.starts_with('.'){
-                        format_output(&entry);
+                        format::output(&entry);
                     }
 
                 }else if args.show_all && !args.dir_only{
-                    format_output(&entry);
+                    format::output(&entry);
 
                 }else if args.show_all && args.dir_only{
                     if entry.is_dir(){
-                        format_output(&entry);
+                        format::output(&entry);
                     }
 
                 }else if !args.show_all && args.dir_only && entry.is_dir() && !entry_string.starts_with('.'){
-                        format_output(&entry);
+                        format::output(&entry);
                     }
                 }
         }
-}
-
-fn format_output(entry: &Path){
-    let entry_string = entry.file_name()
-                            .unwrap()
-                            .to_os_string()
-                            .into_string()
-                            .unwrap();
-
-    if entry_string.starts_with('.') && !entry.is_dir(){
-        println!("{}", entry_string.red());
-
-    }else if entry.is_dir(){
-        println!("{}", entry_string.bold().blue());
-
-    }else if entry.is_symlink(){
-        println!("{}", entry_string.yellow());
-
-    }else{
-        println!("{}", entry_string);
-    }
 }
