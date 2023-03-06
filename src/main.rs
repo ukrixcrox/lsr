@@ -71,6 +71,9 @@ fn format_output(entry: &Path){
     }else if entry.is_dir(){
         println!("{}", entry_string.bold().blue());
 
+    }else if entry.is_symlink(){
+        println!("{}", entry_string.yellow());
+
     }else{
         println!("{}", entry_string);
     }
