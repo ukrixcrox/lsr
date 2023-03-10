@@ -41,19 +41,19 @@ fn main() {
                 // works for now
                 if !args.show_all && !args.dir_only{
                     if !entry_string.starts_with('.'){
-                        format::output(&entry);
+                        format::output(&entry).unwrap();
                     }
 
                 }else if args.show_all && !args.dir_only{
-                    format::output(&entry);
+                    format::output(&entry).unwrap();
 
                 }else if args.show_all && args.dir_only{
                     if entry.is_dir(){
-                        format::output(&entry);
+                        format::output(&entry).unwrap();
                     }
 
                 }else if !args.show_all && args.dir_only && entry.is_dir() && !entry_string.starts_with('.'){
-                        format::output(&entry);
+                        format::output(&entry).unwrap();
                     }
                 }
         }

@@ -1,7 +1,15 @@
 use std::path::Path;
 use colored::Colorize;
+use termion::raw::IntoRawMode;
+use termion::cursor;
+use std::io::{self, stdout, Write};
 
-pub fn output(entry: &Path){
+pub fn output(entry: &Path) -> io::Result<()> {
+
+    // setting up terminal in raw mode 
+    let stdout = stdout().into_raw_mode()?;
+    let mut stdout = stdout.lock();
+
     let entry_string = entry.file_name()
                             .unwrap()
                             .to_os_string()
@@ -9,12 +17,13 @@ pub fn output(entry: &Path){
                             .unwrap();
     
     if entry_string.starts_with('.') && !entry.is_dir(){
-        println!("{}", entry_string.red());
+        write!(stdout, "\n{}{}", cursor::Left(100), entry_string.red())?;
     }else if entry.is_dir(){
-        println!("{}", entry_string.bold().blue());
+        write!(stdout, "\n{}{}", cursor::Left(100), entry_string.bold().blue())?;
     }else if entry.is_symlink(){
-        println!("{}", entry_string.yellow());
+        write!(stdout, "\n{}{}", cursor::Left(100), entry_string.yellow())?;
     }else{
-        println!("{}", entry_string);
+        write!(stdout, "\n{}{}", cursor::Left(100), entry_string)?;
     }
+    Ok(())
 }
