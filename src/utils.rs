@@ -15,3 +15,8 @@ pub fn get_mtime(file: &Path) -> String {
                                             .to_string()
 
 }
+
+/// returns the file size as String type
+pub fn get_size(file: &Path) -> String{
+    metadata(file).unwrap().len().to_string()
+}
