@@ -27,13 +27,13 @@ pub fn output(entry: &Path) -> io::Result<()> {
     let file_size_output = format!("{:>width$}", file_size, width = 8);
     
     if entry_string.starts_with('.') && !entry.is_dir(){
-        write!(stdout, "\n{} {} {} {}",cursor::Left(100), file_size_output, mtime, entry_string.red())?;
+        write!(stdout, "\n{} {} {} {}",cursor::Left(100), file_size_output.purple(), mtime, entry_string.red())?;
     }else if entry.is_dir(){
-        write!(stdout, "\n{} {} {} {}", cursor::Left(100), file_size_output, mtime, entry_string.bold().blue())?;
+        write!(stdout, "\n{} {} {} {}", cursor::Left(100), file_size_output.purple(), mtime, entry_string.bold().blue())?;
     }else if entry.is_symlink(){
-        write!(stdout, "\n{} {} {} {}", cursor::Left(100), file_size_output, mtime, entry_string.yellow())?;
+        write!(stdout, "\n{} {} {} {}", cursor::Left(100), file_size_output.purple(), mtime, entry_string.yellow())?;
     }else{
-        write!(stdout, "\n{} {} {} {}", cursor::Left(100), file_size_output, mtime, entry_string)?;
+        write!(stdout, "\n{} {} {} {}", cursor::Left(100), file_size_output.purple(), mtime, entry_string)?;
     }
     Ok(())
 }
