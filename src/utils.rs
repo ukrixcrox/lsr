@@ -20,3 +20,16 @@ pub fn get_mtime(file: &Path) -> String {
 pub fn get_size(file: &Path) -> String{
     metadata(file).unwrap().len().to_string()
 }
+
+/// returns the biggest len value of a Vec<usize>
+/// with time complexity of O(n)
+pub fn get_longes_file_size_len(file_size_len: Vec<usize>) -> usize{
+    let mut longest_len :usize = 0;
+
+    for element in file_size_len{
+        if element > longest_len{
+            longest_len = element;
+        }
+    }
+    return longest_len
+}

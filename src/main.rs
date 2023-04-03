@@ -1,6 +1,7 @@
 use std::fs;
 use std::path::Path;
 use clap::Parser;
+use std::path::PathBuf;
 
 mod format;
 mod utils;
@@ -32,6 +33,9 @@ fn main() {
     let user_path = Path::new(&args.dir);
 
     if let Ok(entries) = fs::read_dir(user_path){
+
+        let mut to_format_entries: Vec<PathBuf>= Vec::new();
+
         for entry in entries.flatten(){
 
                 let entry = entry.path();
@@ -45,21 +49,23 @@ fn main() {
                 // normal output
                 if !args.show_all && !args.dir_only{
                     if !entry_string.starts_with('.'){
-                        format::output(&entry).unwrap();
+                        to_format_entries.push(entry);
                     }
                 // all flag output
                 }else if args.show_all && !args.dir_only{
-                    format::output(&entry).unwrap();
+                        to_format_entries.push(entry);
 
                 // all flag and dir_only flag output
                 }else if args.show_all && args.dir_only{
                     if entry.is_dir(){
-                        format::output(&entry).unwrap();
+                        to_format_entries.push(entry);
                     }
                 // dir_only flag output
                 }else if !args.show_all && args.dir_only && entry.is_dir() && !entry_string.starts_with('.'){
-                        format::output(&entry).unwrap();
+                        to_format_entries.push(entry);
                     }
                 }
+
+        format::output(to_format_entries).unwrap();
         }
 }
