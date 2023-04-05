@@ -22,7 +22,7 @@ pub fn get_size(file: &PathBuf) -> String{
     metadata(file).unwrap().len().to_string()
 }
 
-/// returns the biggest len value of a Vec<usize>
+/// returns the biggest len value of a Vec<usize> as usize type
 /// with time complexity of O(n)
 pub fn get_longes_file_size_len(file_size_len: Vec<usize>) -> usize{
     let mut longest_len :usize = 0;
@@ -35,6 +35,7 @@ pub fn get_longes_file_size_len(file_size_len: Vec<usize>) -> usize{
     return longest_len
 }
 
+/// get the file permissons as String type
 pub fn get_file_permissions(file: &PathBuf) -> String{
     let permissions = file.metadata().unwrap().permissions();
 
