@@ -11,3 +11,4 @@ clap = { version = "4.1.4", features = ["derive"] }
 colored = "2.0.0"
 filetime = "0.2.20"
 termion = "2.0.1"
+unix_mode = "0.1.3"

@@ -1,11 +1,12 @@
 use std::fs::metadata;
-use std::path::Path;
+use std::path::PathBuf;
 use filetime::FileTime;
 use chrono::NaiveDateTime;
-
+use std::os::unix::fs::PermissionsExt;
+use unix_mode;
 
 /// returns the last time the file was modified as String type
-pub fn get_mtime(file: &Path) -> String {
+pub fn get_mtime(file: &PathBuf) -> String {
     let metadata = metadata(file).unwrap();
     let mtime = FileTime::from_last_modification_time(&metadata).seconds();
 
@@ -17,7 +18,7 @@ pub fn get_mtime(file: &Path) -> String {
 }
 
 /// returns the file size as String type
-pub fn get_size(file: &Path) -> String{
+pub fn get_size(file: &PathBuf) -> String{
     metadata(file).unwrap().len().to_string()
 }
 
@@ -32,4 +33,10 @@ pub fn get_longes_file_size_len(file_size_len: Vec<usize>) -> usize{
         }
     }
     return longest_len
+}
+
+pub fn get_file_permissions(file: &PathBuf) -> String{
+    let permissions = file.metadata().unwrap().permissions();
+
+    unix_mode::to_string(permissions.mode())
 }
