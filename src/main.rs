@@ -66,6 +66,6 @@ fn main() {
                     }
                 }
 
-        format::output(to_format_entries).unwrap();
+        format::output(to_format_entries);
         }
 }
