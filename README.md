@@ -11,3 +11,4 @@ when i say file i mean directory entries, be that a file, a dir, or a symlink
 - [x] add 'file size' to the 'long' flag
 - [ ] add color for executable files
 - [ ] show file owner
+- [ ] add description
