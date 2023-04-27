@@ -41,3 +41,4 @@ pub fn get_file_permissions(file: &PathBuf) -> String{
 
     unix_mode::to_string(permissions.mode())
 }
+

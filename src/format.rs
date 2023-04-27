@@ -11,6 +11,12 @@ pub fn output(entry: Vec<PathBuf>){
     // get the longes file_size len
     let file_size_len = get_longes_file_size_len(file_size_len_vec);
 
+    let row_end_string = "-".repeat(55+file_size_len);
+
+    println!("{}", row_end_string);
+    println!("{:<11} | {:<width$} | {:<19} | {:<15}|", "Permissions", "Size", "Last modified", "Name", width=file_size_len);
+    println!("{}", row_end_string);
+
     for entry in entry{
         let mtime = get_mtime(&entry);
         let file_size = get_size(&entry);
@@ -26,13 +32,14 @@ pub fn output(entry: Vec<PathBuf>){
         let file_size_output = format!("{:>width$}", file_size, width = file_size_len);
         
         if entry_string.starts_with('.') && !entry.is_dir(){
-            println!("{} {} {} {}", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.cyan());
+            println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.cyan());
         }else if entry.is_dir(){
-            println!("{} {} {} {}", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.bold().blue());
+            println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.bold().blue());
         }else if entry.is_symlink(){
-            println!("{} {} {} {}", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.yellow());
+            println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.yellow());
         }else{
-            println!("{} {} {} {}", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string);
+            println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string);
         }
     }
+    println!("{}", row_end_string);
 }
