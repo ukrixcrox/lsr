@@ -10,5 +10,6 @@ chrono = "0.4.24"
 clap = { version = "4.1.4", features = ["derive"] }
 colored = "2.0.0"
 filetime = "0.2.20"
+is_executable = "1.0.1"
 termion = "2.0.1"
 unix_mode = "0.1.3"

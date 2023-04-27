@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 use colored::Colorize;
 use crate::utils::{get_mtime, get_size, get_longes_file_size_len, get_file_permissions};
+use is_executable::IsExecutable;
 
 //TODO: sort entry: dir - file - hidden dir - hidden file
 pub fn output(entry: Vec<PathBuf>){
@@ -31,12 +32,15 @@ pub fn output(entry: Vec<PathBuf>){
         // format file size ouput to always right align 
         let file_size_output = format!("{:>width$}", file_size, width = file_size_len);
         
+        //TODO: put this in a function or something, this is just stupid to work with
         if entry_string.starts_with('.') && !entry.is_dir(){
             println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.cyan());
         }else if entry.is_dir(){
             println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.bold().blue());
         }else if entry.is_symlink(){
             println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.yellow());
+        }else if entry.is_executable(){
+            println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string.bold().green());
         }else{
             println!("{:<11} | {} | {:>19} | {:<15}|", file_permissions.blue(), file_size_output.purple(), mtime.yellow(), entry_string);
         }
