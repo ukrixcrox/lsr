@@ -24,8 +24,6 @@ struct Opts{
     #[arg(long="dir-only")]
     dir_only:bool,
 
-    //TODO: need to add the long format before adding color for executable files
-    //because what is executable is user specific and you can see that on linux in the permissions
 }
 
 fn main() {
@@ -47,23 +45,19 @@ fn main() {
 
                 // works for now
                 // normal output
-                if !args.show_all && !args.dir_only{
-                    if !entry_string.starts_with('.'){
-                        to_format_entries.push(entry);
-                    }
+                if !args.show_all && !args.dir_only && !entry_string.starts_with('.'){
+                    to_format_entries.push(entry);
                 // all flag output
                 }else if args.show_all && !args.dir_only{
                         to_format_entries.push(entry);
 
                 // all flag and dir_only flag output
-                }else if args.show_all && args.dir_only{
-                    if entry.is_dir(){
-                        to_format_entries.push(entry);
-                    }
+                }else if args.show_all && args.dir_only && entry.is_dir(){
+                    to_format_entries.push(entry);
                 // dir_only flag output
                 }else if !args.show_all && args.dir_only && entry.is_dir() && !entry_string.starts_with('.'){
                         to_format_entries.push(entry);
-                    }
+                }
                 }
 
         format::output(to_format_entries);

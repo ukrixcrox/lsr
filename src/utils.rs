@@ -24,10 +24,10 @@ pub fn get_size(file: &PathBuf) -> String{
 
 /// returns the biggest len value of a Vec<usize> as usize type
 /// with time complexity of O(n)
-pub fn get_longes_file_size_len(file_size_len: Vec<usize>) -> usize{
+pub fn get_longest_len(len: Vec<usize>) -> usize{
     let mut longest_len :usize = 0;
 
-    for element in file_size_len{
+    for element in len{
         if element > longest_len{
             longest_len = element;
         }
