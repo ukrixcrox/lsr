@@ -16,10 +16,10 @@ pub fn output(entry: Vec<PathBuf>){
     // don't know if thats better or just worse?    
 
     // get the longest file_size/name/group/owner len
-    let file_size_len = get_longest_len(len_vec(LenVec::FileSize, &entry));
-    let file_name_len = get_longest_len(len_vec(LenVec::FileName, &entry));
-    let file_group_name_len = get_longest_len(len_vec(LenVec::FileGroup, &entry));
-    let file_owner_name_len = get_longest_len(len_vec(LenVec::FileOwner, &entry));
+    let file_size_len = file_len(LenVec::FileSize, &entry);
+    let file_name_len = file_len(LenVec::FileName, &entry);
+    let file_group_name_len = file_len(LenVec::FileGroup, &entry);
+    let file_owner_name_len = file_len(LenVec::FileOwner, &entry);
     
     let row_end_string = "-".repeat(45+file_size_len+file_name_len+file_group_name_len+file_owner_name_len);
 
@@ -70,12 +70,13 @@ fn print_output(entry_string:&ColoredString, file_size_output:&String, file_perm
         println!("{:<11} | {:2} {:2} | {} | {:>19} | {} |", file_permissions.blue(), file_group.green(), file_owner.green(), file_size_output.purple(), mtime.yellow(), entry_string);
 }
 
-/// get the file_name/size/group/owner as Vec<usize>
-fn len_vec(len_vec: LenVec, entry: &Vec<PathBuf>) -> Vec<usize>{
+
+// get the longest len of the file name/size/group/owner as usize
+fn file_len(len_vec: LenVec, entry: &Vec<PathBuf>) -> usize{
     match len_vec{
-        LenVec::FileSize => entry.iter().map(|entry| get_size(entry).len()).collect(),
-        LenVec::FileName => entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().len()).collect(),
-        LenVec::FileGroup => entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().group().unwrap().name().unwrap().unwrap().len()).collect(),
-        LenVec::FileOwner => entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().owner().unwrap().name().unwrap().unwrap().len()).collect(),
+        LenVec::FileSize => get_longest_len(entry.iter().map(|entry| get_size(entry).len()).collect()),
+        LenVec::FileName => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().len()).collect()),
+        LenVec::FileGroup => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().group().unwrap().name().unwrap().unwrap().len()).collect()),
+        LenVec::FileOwner => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().owner().unwrap().name().unwrap().unwrap().len()).collect()),
     }
 }
