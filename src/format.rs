@@ -4,19 +4,22 @@ use crate::utils::{get_mtime, get_size, get_longest_len, get_file_permissions};
 use is_executable::IsExecutable;
 use file_owner::PathExt;
 
+enum LenVec{
+    FileSize,
+    FileName,
+    FileGroup,
+    FileOwner,
+}
+
 pub fn output(entry: Vec<PathBuf>){
 
-    // collect all the file_sizes/name/group/owner in a vec
-    let file_size_len_vec: Vec<usize> = entry.iter().map(|entry| get_size(entry).len()).collect();
-    let file_name_len_vec: Vec<usize> = entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().len()).collect();
-    let file_group_name_len_vec: Vec<usize> = entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().group().unwrap().name().unwrap().unwrap().len()).collect();
-    let file_owner_name_len_vec: Vec<usize> = entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().owner().unwrap().name().unwrap().unwrap().len()).collect();
+    // don't know if thats better or just worse?    
 
-    // get the longes file_size/name/group/owner len
-    let file_size_len = get_longest_len(file_size_len_vec);
-    let file_name_len = get_longest_len(file_name_len_vec);
-    let file_group_name_len = get_longest_len(file_group_name_len_vec);
-    let file_owner_name_len = get_longest_len(file_owner_name_len_vec);
+    // get the longest file_size/name/group/owner len
+    let file_size_len = get_longest_len(len_vec(LenVec::FileSize, &entry));
+    let file_name_len = get_longest_len(len_vec(LenVec::FileName, &entry));
+    let file_group_name_len = get_longest_len(len_vec(LenVec::FileGroup, &entry));
+    let file_owner_name_len = get_longest_len(len_vec(LenVec::FileOwner, &entry));
     
     let row_end_string = "-".repeat(45+file_size_len+file_name_len+file_group_name_len+file_owner_name_len);
 
@@ -44,6 +47,8 @@ pub fn output(entry: Vec<PathBuf>){
         let file_group_output = format!("{:<width$}", file_group, width=file_group_name_len);
         let file_owner_output = format!("{:width$}", file_owner, width=file_owner_name_len);
         
+        // TODO: WHY?
+
         //idk
         //at least it works
         if entry_string.starts_with('.') && !entry.is_dir(){
@@ -63,4 +68,14 @@ pub fn output(entry: Vec<PathBuf>){
 
 fn print_output(entry_string:&ColoredString, file_size_output:&String, file_permissions:&String, mtime:&String, file_owner:&String, file_group:&String){
         println!("{:<11} | {:2} {:2} | {} | {:>19} | {} |", file_permissions.blue(), file_group.green(), file_owner.green(), file_size_output.purple(), mtime.yellow(), entry_string);
+}
+
+/// get the file_name/size/group/owner as Vec<usize>
+fn len_vec(len_vec: LenVec, entry: &Vec<PathBuf>) -> Vec<usize>{
+    match len_vec{
+        LenVec::FileSize => entry.iter().map(|entry| get_size(entry).len()).collect(),
+        LenVec::FileName => entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().len()).collect(),
+        LenVec::FileGroup => entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().group().unwrap().name().unwrap().unwrap().len()).collect(),
+        LenVec::FileOwner => entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().owner().unwrap().name().unwrap().unwrap().len()).collect(),
+    }
 }
