@@ -21,7 +21,7 @@ pub fn output(entry: Vec<PathBuf>){
     let file_group_name_len = file_len(LenVec::FileGroup, &entry);
     let file_owner_name_len = file_len(LenVec::FileOwner, &entry);
     
-    let row_end_string = "-".repeat(45+file_size_len+file_name_len+file_group_name_len+file_owner_name_len);
+    let row_end_string = "-".repeat(47+file_size_len+file_name_len+file_group_name_len+file_owner_name_len);
 
     println!("{}", row_end_string);
     println!("{:<11} | {:width_owner_name$} | {:<width$} | {:<19} | {:width_file_name$} |", "Permissions", "Owner", "Size", "Last modified", "Name", width=file_size_len, width_file_name=file_name_len, width_owner_name=file_owner_name_len+file_group_name_len+1);
