@@ -47,8 +47,6 @@ pub fn output(entry: Vec<PathBuf>){
         let file_group_output = format!("{:<width$}", file_group, width=file_group_name_len);
         let file_owner_output = format!("{:width$}", file_owner, width=file_owner_name_len);
         
-        // TODO: WHY?
-
         //idk
         //at least it works
         if entry_string.starts_with('.') && !entry.is_dir(){
@@ -67,7 +65,7 @@ pub fn output(entry: Vec<PathBuf>){
 }
 
 fn print_output(entry_string:&ColoredString, file_size_output:&String, file_permissions:&String, mtime:&String, file_owner:&String, file_group:&String){
-        println!("{:<11} | {:2} {:2} | {} | {:>19} | {} |", file_permissions.blue(), file_group.green(), file_owner.green(), file_size_output.purple(), mtime.yellow(), entry_string);
+        println!("{:<11} | {:2} {:2} | {:4} | {:>19} | {:4} |", file_permissions.blue(), file_group.green(), file_owner.green(), file_size_output.purple(), mtime.yellow(), entry_string);
 }
 
 
@@ -76,7 +74,6 @@ fn file_len(len_vec: LenVec, entry: &Vec<PathBuf>) -> usize{
     match len_vec{
         LenVec::FileSize => get_longest_len(entry.iter().map(|entry| get_size(entry).len()).collect()),
         LenVec::FileName => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().len()).collect()),
-        LenVec::FileGroup => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().group().unwrap().name().unwrap().unwrap().len()).collect()),
-        LenVec::FileOwner => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().owner().unwrap().name().unwrap().unwrap().len()).collect()),
+        LenVec::FileGroup | LenVec::FileOwner => get_longest_len(entry.iter().map(|entry| entry.file_name().unwrap().to_owned().into_string().unwrap().group().unwrap().name().unwrap().unwrap().len()).collect()),
     }
 }
