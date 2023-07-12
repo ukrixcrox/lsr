@@ -11,6 +11,6 @@ also excuse the shit code, I'll refactor/rewrite once I'm done with basic functi
 - [x] add 'show permissions' to the 'long' flag
 - [x] add 'file size' to the 'long' flag
 - [x] add color for executable files
-- [ ] show file owner
+- [x] show file owner
 - [ ] add description
 - [ ] sort output
