@@ -50,18 +50,23 @@ pub fn output(entry: Vec<PathBuf>){
         //idk
         //at least it works
         if entry_string.starts_with('.') && !entry.is_dir(){
-            print_output(&file_name_output.cyan(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output)
+            print_output(&file_name_output.cyan(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output);
+            println!("{}", row_end_string);
         }else if entry.is_dir(){
-            print_output(&file_name_output.bold().blue(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output)
+            print_output(&file_name_output.bold().blue(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output);
+            println!("{}", row_end_string);
         }else if entry.is_symlink(){
-            print_output(&file_name_output.yellow(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output)
+            print_output(&file_name_output.yellow(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output);
+            println!("{}", row_end_string);
         }else if entry.is_executable(){
-            print_output(&file_name_output.bold().green(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output)
+            print_output(&file_name_output.bold().green(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output);
+            println!("{}", row_end_string);
         }else{
-            print_output(&file_name_output.white(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output)
+            print_output(&file_name_output.white(), &file_size_output, &file_permissions, &mtime, &file_owner_output, &file_group_output);
+            println!("{}", row_end_string);
         }
     }
-    println!("{}", row_end_string);
+    //println!("{}", row_end_string);
 }
 
 fn print_output(entry_string:&ColoredString, file_size_output:&String, file_permissions:&String, mtime:&String, file_owner:&String, file_group:&String){
